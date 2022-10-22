@@ -1,0 +1,95 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 33306,
+            "driver": "MySQL",
+            "name": "moovleen",
+            "database": "moovleen",
+            "username": "root",
+            "password": ""
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 33306,
+            "driver": "MySQL",
+            "name": "moovleen",
+            "database": "moovleen",
+            "username": "root",
+            "password": "admin"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "databaseTest",
+            "username": "root",
+            "database": "bitbucket",
+            "password": ""
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 33306,
+            "driver": "MySQL",
+            "name": "moovleenLocal",
+            "database": "isquaredb",
+            "username": "root",
+            "password": ""
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "encheres",
+            "database": "encheres",
+            "username": "root",
+            "password": ""
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "CDA_MOOVLEEN",
+            "database": "moovleendb",
+            "username": "USER_ISI",
+            "password": "Pa$$w0rd"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "CDA_MOOVLEEN",
+            "database": "moovleendb",
+            "username": "USER_ISI",
+            "password": "Pa$$w0rd"
+        }
+    ]
+}

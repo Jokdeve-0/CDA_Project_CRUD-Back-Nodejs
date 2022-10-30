@@ -3,13 +3,8 @@ const express = require('express');
 const app = express();
 
 const databaseRoutes = require('./routes/database');
-const userRoutes = require('./routes/user');
-const editorRoutes = require('./routes/editor');
-const editorMemberRoutes = require('./routes/editorMember');
-const roleRoutes = require('./routes/role');
-const bookRoutes = require('./routes/book');
 const authRoutes = require('./routes/auth');
-const csrfRouter= require('./routes/csrf.routes');
+const routes = require('./routes/base.routes');
 
 app.use(express.json());
 app.use((req, res, next) => {
@@ -19,16 +14,16 @@ app.use((req, res, next) => {
     next()
 });
 
-app.use('/api/database',databaseRoutes);
-app.use('/api/user',userRoutes);
-app.use('/api/auth',authRoutes);
-app.use('/api/editor',editorRoutes);
-app.use('/api/editorMember',editorMemberRoutes);
-app.use('/api/role',roleRoutes);
-app.use('/api/book',bookRoutes);
-// app.use('/api',csrfRouter);
+app.use('/api/database', databaseRoutes);
+app.use('/api/auth', authRoutes);
 
-// app.use('/api',(req,res)=>{
-//     res.status(200).json({message: "Bienvenue sur l'API de l'application test du projet CDA."})
-// })
+var defaultController = 'role';
+var baseRoutes = routes(defaultController);
+
+app.use('/api', (req, res, next) => {
+    defaultController = req.path.split('/')[1];
+    baseRoutes = routes(defaultController);
+    next();
+}, baseRoutes);
+
 module.exports = app;

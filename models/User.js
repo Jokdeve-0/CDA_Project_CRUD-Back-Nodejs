@@ -1,13 +1,11 @@
 class User {
-    constructor(
-        username, mail, password, roleId, createdAt, updatedAt
-    ) {
-        this.username = username;
-        this.mail = mail;
-        this.password =password;
-        this.roleId =roleId;
-        this.createdAt=createdAt;
-        this.updatedAt=updatedAt;
+    constructor(params) {
+        this.username = params.username;
+        this.mail = params.mail;
+        this.password = params.password;
+        this.roleId = params.roleId;
+        this.createdAt= params.createdAt;
+        this.updatedAt= params.updatedAt;
     }
 }
 module.exports = User;

@@ -106,10 +106,10 @@ module.exports = {
         query: `INSERT INTO \`role\`(\`name\`) VALUES ('Admin');
         INSERT INTO \`role\`(\`name\`) VALUES ('User');
         -- User
-        INSERT INTO \`user\`(\`id\`,\`username\`, \`mail\`, \`password\`,\`role_id\`) VALUES (1,'admin','admin@moovleen.com','$08$bWZLQGlW52QhgJ6alPHooeyyXhmD/FP45VrwZPIxGJGre9p4Eq5bC',2);
-        INSERT INTO \`user\`(\`id\`,\`username\`, \`mail\`, \`password\`,\`role_id\`) VALUES (2,'Pierre','pierre@moovleen.com','$08$bWZLQGlW52QhgJ6alPHooeyyXhmD/FP45VrwZPIxGJGre9p4Eq5bC',1);
-        INSERT INTO \`user\`(\`id\`,\`username\`, \`mail\`, \`password\`,\`role_id\`) VALUES (3,'Paul','paul@moovleen.com','$08$FQVy1lahtKOVEf4.BRGevulTETW7IZX5AmwRwWu/9.SnuyLDp24vu',1);
-        INSERT INTO \`user\`(\`id\`,\`username\`, \`mail\`, \`password\`,\`role_id\`) VALUES (4,'Jacques','jacques@moovleen.com','$08$4CqLTtjUgb1gKtQJN6oyGeRjBdWJPPfD6qBw.Pt5pQ.qvtAiKsnjS',1);
+        INSERT INTO \`user\`(\`id\`,\`username\`, \`mail\`, \`password\`,\`role_id\`) VALUES (1,'admin','admin@moovleen.com','$2b$10$N7//hHzhQXWe45KNTa5rCuqdwCIIEdnm1qZ3Vfeec1jCeOasGVN/C',2);
+        INSERT INTO \`user\`(\`id\`,\`username\`, \`mail\`, \`password\`,\`role_id\`) VALUES (2,'Pierre','pierre@moovleen.com','$2b$10$N7//hHzhQXWe45KNTa5rCuqdwCIIEdnm1qZ3Vfeec1jCeOasGVN/C',1);
+        INSERT INTO \`user\`(\`id\`,\`username\`, \`mail\`, \`password\`,\`role_id\`) VALUES (3,'Paul','paul@moovleen.com','$2b$10$N7//hHzhQXWe45KNTa5rCuqdwCIIEdnm1qZ3Vfeec1jCeOasGVN/C',1);
+        INSERT INTO \`user\`(\`id\`,\`username\`, \`mail\`, \`password\`,\`role_id\`) VALUES (4,'Jacques','jacques@moovleen.com','$2b$10$N7//hHzhQXWe45KNTa5rCuqdwCIIEdnm1qZ3Vfeec1jCeOasGVN/C',1);
         -- Editor
         INSERT INTO \`editor\`(\`isbn_product\`, \`isbn_country\`, \`isbn_editor\`, \`name\`) VALUES ('999','22','1234','Le Lys Bleu Éditions');
         INSERT INTO \`editor\`(\`isbn_product\`, \`isbn_country\`, \`isbn_editor\`, \`name\`) VALUES ('998','23','1235','Les Éditeurs Réunis');

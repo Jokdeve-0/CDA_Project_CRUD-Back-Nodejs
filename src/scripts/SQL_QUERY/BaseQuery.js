@@ -1,4 +1,4 @@
-const {ObjectSeparatesColumnsValuesForAdd} = require('../../helpers/ObjectHandler');
+const {ObjectSeparatesColumnsValuesForAdd, ObjectSeparatesColumnsValuesForAddAndPasswordHash} = require('../../helpers/ObjectHandler');
 class BaseQuery{
 
     selectAll(table){
@@ -10,6 +10,14 @@ class BaseQuery{
     }     
     addEntity(table,entity){
         const keysValues = ObjectSeparatesColumnsValuesForAdd(entity);
+        return {
+            table:table,
+            query:`Insert into ${table} (${keysValues.columns}) VALUES (${keysValues.values})`,
+            log:`Action 'add a new entity in ${table}s' at : `
+        }
+    } 
+    signup(table,entity,passwordHash){
+        const keysValues = ObjectSeparatesColumnsValuesForAddAndPasswordHash(entity,passwordHash);
         return {
             table:table,
             query:`Insert into ${table} (${keysValues.columns}) VALUES (${keysValues.values})`,

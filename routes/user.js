@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router()
 const userController = require('../controllers/user.controller');
-const { userUniqueCheck } = require('../middleware/authUnique');
 
 router.get('/all', userController.selectAll);
 router.post('/add',userController.addEntity);

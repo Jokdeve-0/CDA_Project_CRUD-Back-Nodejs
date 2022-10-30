@@ -4,23 +4,34 @@ class HandlerCookie {
   async generateToken(user) {
     return {
         token: jwt.sign({
-            id: user[0].id,
-            role: user[0].role
+            id: user.id,
+            role: user.role_id
         }, "RANDOM_TOKEN_SECRET", {
             expiresIn: '24h'
         })
     };
   }
 
-  async attachCookieToResponse({ response, user }) {
+  async attachCookieToResponse({ res, user }) {
     const month = 1000 * 60 * 60 * 24 * 30;
     const token = await this.generateToken(user);
 
-    response.cookie('token', token, {
+    res.cookie('token', token, {
       httpOnly: true,
       expires: new Date(Date.now() + month),
       secure: process.env.NODE_ENV !== 'development',
     });
+
+    res.status(200).json({
+        user: {
+            id: user.id,
+            username: user.username,
+            mail: user.mail,
+            roleId: user.roleId,
+            token: token
+        },
+        message: 'Logged in successfully : 🟢'
+    })
   }
 }
 const handlerCookie = new HandlerCookie();

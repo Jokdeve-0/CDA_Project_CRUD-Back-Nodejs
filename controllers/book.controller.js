@@ -17,7 +17,7 @@ class BookController{
     }
 
     editEntity = (req, res, next) => {
-        baseController.editEntity(req, res, next,baseQuery.selectEntity('book',req.body.id));
+        baseController.editEntity(req, res, next,baseQuery.editEntity('book',req.body));
     }
 
     deleteEntity = (req, res, next) => {

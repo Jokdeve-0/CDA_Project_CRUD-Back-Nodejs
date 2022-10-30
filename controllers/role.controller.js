@@ -15,7 +15,7 @@ class RoleController{
     }
 
     editEntity = (req, res, next) => {
-        baseController.editEntity(req, res, next,baseQuery.selectEntity('role',req.body.id));
+        baseController.editEntity(req, res, next,baseQuery.editEntity('role',req.body));
     }
 
     deleteEntity = (req, res, next) => {

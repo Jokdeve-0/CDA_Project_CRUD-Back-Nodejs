@@ -1,87 +1,81 @@
+const bcrypt = require('bcrypt');
 const mysql = require('mysql');
 const config = require('../src/_config/config.db');
 const log = require('../src/helpers/log');
 const sDeb = require('../src/helpers/ShowDebug');
 const BaseQuery = require('../src/scripts/SQL_QUERY/BaseQuery.js');
-
-const {
-    handleResponse
-} = require('../src/helpers/handleResponse');
-const {
-    handleError
-} = require('../src/helpers/handleError');
+const { handleError } = require('../src/helpers/handleError');
+const { handleResponse } = require('../src/helpers/handleResponse');
 
 const connection = mysql.createConnection(config);
 
 
-
-exports.addEntity = (req, res, next, baseQuery) => {
-    connection.query(baseQuery.query, (error, result_email) => {
+exports. signup = (req, res, next) => {
+    const baseQuery = BaseQuery.addEntity('user',req.body);
+    connection.query(`SELECT * FROM ${baseQuery.table} WHERE ${baseQuery.table}.username='${req.body.username}' OR ${baseQuery.table}.mail='${req.body.mail}';`, (error, existingParams) => {
         if (error) {
-            console.error('SQL error: ', error)
             return res.status(403).json({
                 error:error
             })
         }
-        if (result_email.length != 0) {
+        if (existingParams.length != 0) {
             res.status(403).json({
-                error: '⚠️ Already existing user! ⚠️'
+                error: '⚠️ Already existing identifiers ! ⚠️'
             })
         }else{
-            connection.query(`SELECT * FROM users WHERE pseudo="${req.body.username}";`, (error, result_pseudo) => {
-                if (error) {
-                    console.error('SQL error: ', error)
-                    return res.status(403).json({
-                        error:error
-                    })
-                }
-                if (result_pseudo.length != 0) {
-                    res.status(403).json({
-                        error: '⚠️ Already existing Pseudo! ⚠️'
-                    })
-                }else{
-                    bcrypt.hash(req.body.password, 10)
-                    .then(hash => {
-                        connexion.query(`INSERT INTO users (email,password,pseudo,rank) VALUES ("${req.body.email}","${hash}","${req.body.pseudo}","${"SOLDIER"}");`, (error) => {
-                            if (error) {
-                                console.error('❌SQL error❌: ', error);
-                                return next(error);
-                            }
-                            res.status(201).json({
-                                message: '✅ Registered user ! ✅'
-                            })
+            bcrypt.hash(req.body.password, 10)
+            .then(hash => {
+                console.log(hash)
+                const baseQuerySignup = BaseQuery.signup('user',req.body,hash);
+                connection.query(baseQuerySignup.query, (error,entity) => {
+                    if (error) {
+                        return res.status(403).json({
+                            error:error
                         })
+                    }
+                    res.status(200).json({
+                        entity,
+                        message: '✅ Registered user ! ✅'
                     })
-                    .catch(error => res.status(500).json({
-                        error: error
-                    }))
-                }
+                })
             })
+            .catch(error => res.status(500).json({
+                error: error
+            }))
         }
     })
-    // // log.c('baseController',19,req.body,console.table(baseQuery));
-    // try{
-    //     connection.query(baseQuery.query, (error, infos) => {
-    //         if (error) {
-    //             throw {error,message:'🛑 Internal error 🛑'};
-    //         } else {
-    //             const entityQuery = BaseQuery.selectEntity(baseQuery.table, infos.insertId);
-    //             // log.c('baseController',25);
-    //             connection.query(entityQuery.query, (error, entity) => {
-    //                 if (error) {
-    //                     // log.c('baseController',27,error);
-    //                     throw {error,message:'🛑 Internal error 🛑'};
-    //                 } else {
-    //                     // log.c('baseController',30,entity);
-    //                     if(entity.length === 0){return handleError({message:'sql query failed'}, res);}
-    //                     return handleResponse(entity, res, `✅ INSERT INTO ${baseQuery.table} !`);
-    //                 }
-    //             });
-    //         }
-    //     });
-    // }catch(error){
-    //     return res.status(403).send({error,message:'🛑 Internal error 🛑'});
-    // }
+}
+exports.addEntity = (req, res, next, baseQuery) => {
+    try{
+        connection.query(baseQuery.query, (error, existingParams) => {
+            if (error) {
+                console.error('SQL error: ', error)
+                return res.status(403).json({
+                    error:error.sqlMessage
+                })
+            }else{
+                console.log(existingParams)
+                const selectQuery = BaseQuery.selectEntity(baseQuery.table,existingParams.insertId);
+               console.log('SQL',selectQuery)
+                connection.query(selectQuery.query,(error, entity)=>{
+                    if (error) {
+                        console.error('SQL error: ', error)
+                        return res.status(403).json({
+                            error:error
+                        })
+                    }else{
+                        console.log(entity)
+                        res.status(201).json({
+                            entity,
+                            message: '✅ Registered Entity ! ✅'
+                        })
+                    }
+                })
+            }
+        })
+    }catch(error){
+        res.status(500).json({error, message: error.message})
+    }
 }
 exports.selectAll = (req, res, next, baseQuery) => {
     connection.query(baseQuery.query, (error, infos) => {
@@ -102,30 +96,40 @@ exports.selectEntity = (req, res, next, baseQuery) => {
     });
 }
 exports.editEntity = (req, res, next, baseQuery) => {
-    const editQuery = BaseQuery.editEntity(baseQuery.table, req.body);
-    connection.query(editQuery.query, (error, updatedInfos) => {
-        if (error) {
-            return handleError(error, res);
-        } else {
-            if(updatedInfos.affectedRows === 0 ){return handleError({message:'sql query failed'}, res,400);}
-            const entityQuery = BaseQuery.selectEntity(baseQuery.table,updatedInfos.insertId);
-            connection.query(entityQuery.query, (error, updatedEntity) => {
-                if (error) {
-                    return handleError(error, res);
-                } else {
-                    return handleResponse(updatedEntity, res, `✅ UPDATE ${baseQuery.table} !`);
-                }
-            });
-        }
-    });
+    try{
+        connection.query(baseQuery.query, (error, infos) => {
+            if (error) {
+                return res.status(403).json({
+                    error:error.sqlMessage
+                })
+            }else{
+                res.status(201).json({
+                    infos,
+                    message: '✅ Updated Entity ! ✅'
+                })
+            }
+        })
+    }catch(error){
+        res.status(500).json({error, message: error.message})
+    }
 }
 exports.deleteEntity = (req, res, next, baseQuery) => {
-    connection.query(baseQuery.query, (error, infos) => {
-        if (error) {
-            return handleError(error, res);
-        } else {
-            if(infos.affectedRows === 0){return handleError({message:'sql query failed'}, res,403);}
-            return handleResponse(infos, res, `✅ DELETE ${baseQuery.table} !`);
-        }
-    });
+
+    try{
+        connection.query(baseQuery.query, (error, entity) => {
+            if (error) {
+                console.error('SQL error: ', error)
+                return res.status(403).json({
+                    error:error.sqlMessage
+                })
+            }else{
+                res.status(201).json({
+                    entity,
+                    message: '✅ Deleted Entity ! ✅'
+                })
+            }
+        })
+    }catch(error){
+        res.status(500).json({error, message: error.message})
+    }
 }

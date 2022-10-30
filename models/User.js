@@ -1,5 +1,4 @@
 class User {
-
     constructor(
         username, mail, password, roleId, createdAt, updatedAt
     ) {

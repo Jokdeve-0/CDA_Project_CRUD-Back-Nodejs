@@ -1,4 +1,3 @@
-const log = require('../src/helpers/log.js');
 const baseQuery = require('../src/scripts/SQL_QUERY/BaseQuery.js');
 const baseController = require('./base.controller');
 
@@ -9,10 +8,7 @@ class UserController{
     }
 
     addEntity = (req, res, next) => {
-        // log.c('UserController',16,req.body)
-        // Reflect.deleteProperty(req.body, 'unique');
-        // log.c('UserController',18,req.body)
-        baseController.addEntity(req, res, next,baseQuery.addEntity('user',req.body.user));
+        baseController.addEntity(req, res, next,baseQuery.addEntity('user',req.body));
     }
     
     selectEntity = (req, res, next) => {
@@ -20,7 +16,7 @@ class UserController{
     }
 
     editEntity = (req, res, next) => {
-        baseController.editEntity(req, res, next,baseQuery.selectEntity('user',req.body.id));
+        baseController.editEntity(req, res, next,baseQuery.editEntity('user',req.body));
     }
 
     deleteEntity = (req, res, next) => {

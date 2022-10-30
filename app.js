@@ -9,6 +9,7 @@ const editorMemberRoutes = require('./routes/editorMember');
 const roleRoutes = require('./routes/role');
 const bookRoutes = require('./routes/book');
 const authRoutes = require('./routes/auth');
+const csrfRouter= require('./routes/csrf.routes');
 
 app.use(express.json());
 app.use((req, res, next) => {
@@ -20,11 +21,12 @@ app.use((req, res, next) => {
 
 app.use('/api/database',databaseRoutes);
 app.use('/api/user',userRoutes);
+app.use('/api/auth',authRoutes);
 app.use('/api/editor',editorRoutes);
 app.use('/api/editorMember',editorMemberRoutes);
 app.use('/api/role',roleRoutes);
 app.use('/api/book',bookRoutes);
-app.use('/api/auth',authRoutes);
+// app.use('/api',csrfRouter);
 
 // app.use('/api',(req,res)=>{
 //     res.status(200).json({message: "Bienvenue sur l'API de l'application test du projet CDA."})

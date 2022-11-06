@@ -1,6 +1,15 @@
-const {ObjectSeparatesColumnsValuesForAdd, ObjectSeparatesColumnsValuesForAddAndPasswordHash} = require('../../helpers/ObjectHandler');
+const {
+    ObjectSeparatesColumnsValuesForAdd, 
+    ObjectSeparatesColumnsValuesForAddAndPasswordHash
+} = require('../../helpers/ObjectHandler');
 class BaseQuery{
 
+  constructor(){
+    this.columns = {
+      editor:'e.id,isbn_product,isbn_country,isbn_editor,e.name,e.created_at,e.updated_at',
+      user:'e.id,username,mail,password,e.created_at,e.updated_at',
+    };
+  }
     selectAll(table){
         return {
             table:table,
@@ -31,6 +40,14 @@ class BaseQuery{
             log:`Action 'select a entity in ${table}s' at : `
         }
     }   
+    relationEntity(table,id){
+      const relationTable = table === 'user' ? 'editor' : 'user';
+        return {
+            table:table,
+            query:`select ${this.columns[relationTable]} from ${relationTable} as e left join editor_member as em on e.id = em.${relationTable}_id  right join ${table} as u on u.id = em.${table}_id where u.id = ${id};`,
+            log:`Action 'relation on entity in ${table}s' at : `
+        }
+    }   
     editEntity(table,entity){
         let sqlString = '';
         for (const property in entity) {
@@ -51,6 +68,7 @@ class BaseQuery{
             log:`Action 'delete a entity in ${table}s' at : `
         }
     }
+
 }
 const baseQuery = new BaseQuery()
 module.exports = baseQuery;

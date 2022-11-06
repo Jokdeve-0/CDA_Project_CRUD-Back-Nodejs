@@ -8,11 +8,11 @@ class UserController{
     }
 
     addEntity = (req, res, next) => {
-        baseController.addEntity(req, res, next,baseQuery.addEntity('user',req.body));
+      baseController.addEntity(req, res, next,baseQuery.addEntity('user',req.body));
     }
-    
+      
     selectEntity = (req, res, next) => {
-        baseController.selectEntity(req, res, next,baseQuery.selectEntity('user',req.body.id));
+      baseController.selectEntity(req, res, next,baseQuery.selectEntity('user',req.body.id));
     }
 
     editEntity = (req, res, next) => {

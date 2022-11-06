@@ -15,11 +15,11 @@ class HandlerCookie {
   async attachCookieToResponse({ res, user }) {
     const month = 1000 * 60 * 60 * 24 * 30;
     const token = await this.generateToken(user);
-
     res.cookie('token', token, {
-      httpOnly: true,
+      // httpOnly: true,
       expires: new Date(Date.now() + month),
       secure: process.env.NODE_ENV !== 'development',
+      domain: process.env.DOMAIN_NAME,
     });
 
     res.status(200).json({

@@ -17,8 +17,6 @@ exports.buildObjectSeparatesColumnsValues = (entity) => {
             values += ',';
         }
     }
-    console.log(columns)
-    console.log(values)
     return {
         columns: columns,
         values: values

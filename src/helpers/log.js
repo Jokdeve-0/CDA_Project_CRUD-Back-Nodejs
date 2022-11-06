@@ -5,7 +5,7 @@ class Log {
     this.errors_file = `${process.env.ROOT_DIR}/scripts/.cache/errors.log`;
   }
 
-  response(actionSQL, message) {
+  response(actionDone, result) {
     const options = {
       weekday: 'short',
       year: 'numeric',
@@ -15,26 +15,26 @@ class Log {
       minute: 'numeric'
     };
     var results = '';
-    message.forEach(element => {
+    result.forEach(element => {
         results += `${JSON.stringify(element)}\n`;
     });
     return ` 
-${actionSQL}
+${actionDone}
 ${new Date(Date.now()).toLocaleDateString('fr-FR',options)} 
 ${results} 
 `;
   }
 
-  writeSQL(actionSQL, response, messageType) {
+  writeHistory(actionDone, result, messageType) {
       fs.writeFile(messageType === 'error' ? this.errors_file : this.SQL_file,
-        this.response(actionSQL, response), {flag: 'a+'},
+        this.response(actionDone, result), {flag: 'a+'},
         function (error) {
           if (error) {
             console.log(`ERROR 🛑 writing log : ${JSON.stringify(error, null, 4)}`);
           }
         }
         );
-        console.log(messageType === 'error' ? `🛑 Error : ${response[0].message}` : "💾" + " new log");
+        console.log(messageType === 'error' ? `🛑 Error : ${result[0].message}` : `${actionDone} is a success`);
   }
 
   c(file,line,message,variable){

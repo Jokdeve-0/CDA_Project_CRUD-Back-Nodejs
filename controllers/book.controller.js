@@ -8,7 +8,6 @@ class BookController{
     }
 
     addEntity = (req, res, next) => {
-        console.log(req.body)
         baseController.addEntity(req, res, next,baseQuery.addEntity('book',req.body));
     }
     

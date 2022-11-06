@@ -1,6 +1,10 @@
 module.exports = {
-    createTable: {
-        query:`
+  createDatabase: {
+    query: `CREATE DATABASE IF NOT EXISTS moovleendb;`,
+    log: "Action 'create database' at : "
+  },
+  createTable: {
+    query: `
         DROP TABLE IF EXISTS \`editor_member\` ;
         DROP TABLE IF EXISTS \`book\` ;
         DROP TABLE IF EXISTS \`editor\` ;
@@ -84,26 +88,24 @@ module.exports = {
         CREATE UNIQUE INDEX idx_book_uuid ON \`book\` (uuid);
         CREATE UNIQUE INDEX idx_book_isbn_article ON \`book\` (isbn_article(250));
         CREATE INDEX idx_book_editor_id ON \`book\` (editor_id);`,
-        log: "Action 'create table' at : "
-    },
-    showTable:{
-        query:`
-        SHOW TABLES`
-        ,
-        log:"Action 'show tables' at : "
-    },
-    deleteTable:{
-        query:`
+    log: "Action 'create table' at : "
+  },
+  showTable: {
+    query: `
+        SHOW TABLES`,
+    log: "Action 'show tables' at : "
+  },
+  deleteTable: {
+    query: `
         DROP TABLE IF EXISTS \`editor_member\` ;
         DROP TABLE IF EXISTS \`book\` ;
         DROP TABLE IF EXISTS \`editor\` ;
         DROP TABLE IF EXISTS \`role\` ;
-        DROP TABLE IF EXISTS \`user\` ;`
-        ,
-        log:"Action 'delete table' at : "
-    },
-    insertFixtures: {
-        query: `INSERT INTO \`role\`(\`name\`) VALUES ('Admin');
+        DROP TABLE IF EXISTS \`user\` ;`,
+    log: "Action 'delete table' at : "
+  },
+  insertFixtures: {
+    query: `INSERT INTO \`role\`(\`name\`) VALUES ('Admin');
         INSERT INTO \`role\`(\`name\`) VALUES ('User');
         -- User
         INSERT INTO \`user\`(\`id\`,\`username\`, \`mail\`, \`password\`,\`role_id\`) VALUES (1,'admin','admin@moovleen.com','$2b$10$N7//hHzhQXWe45KNTa5rCuqdwCIIEdnm1qZ3Vfeec1jCeOasGVN/C',2);
@@ -170,7 +172,7 @@ module.exports = {
         INSERT INTO \`book\`(\`uuid\`, \`isbn_article\`, \`title\`, \`authors\`, \`metadata\`, \`nav\`,\`editor_id\`,\`created_at\`) VALUES ('4575','789134','Gagner la guerre','Jean-Philippe Jaworski ','{"pages":45}','{"chapitres":12}','8','2022-09-15');
         
         INSERT INTO \`book\`(\`uuid\`, \`isbn_article\`, \`title\`, \`authors\`, \`metadata\`, \`nav\`,\`editor_id\`,\`created_at\`) VALUES ('4576','789135','Martin Eden ','Jack London ','{"pages":145}','{"chapitres":18}','8','2022-09-16');`,
-        log: "Action 'insert' at : "
-        
-    },
+    log: "Action 'insert' at : "
+
+  },
 }

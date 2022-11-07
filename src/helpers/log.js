@@ -30,11 +30,11 @@ ${results}
         this.response(actionDone, result), {flag: 'a+'},
         function (error) {
           if (error) {
-            console.log(`ERROR 🛑 writing log : ${JSON.stringify(error, null, 4)}`);
+            // console.log(`ERROR 🛑 writing log : ${JSON.stringify(error, null, 4)}`);
           }
         }
         );
-        console.log(messageType === 'error' ? `🛑 Error : ${result[0].message}` : `${actionDone} is a success`);
+        // console.log(messageType === 'error' ? `🛑 Error : ${result[0].message}` : `${actionDone} is a success`);
   }
 
   c(file,line,message,variable){

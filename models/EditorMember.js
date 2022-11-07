@@ -1,13 +1,12 @@
-class BaseUser{
+class BaseEditorMember{
     constructor(params){
-        this.username = params.username;
-        this.mail = params.mail;
-        this.password = params.password; 
+        this.editor_id = params.editor_id;
+        this.user_id = params.user_id;
     }
 }
 
 
-class User extends BaseUser{
+class EditorMember extends BaseEditorMember{
     constructor(params){
         super(params);
         this.id = params.id;
@@ -15,4 +14,4 @@ class User extends BaseUser{
         this.updated_at = params.updated_at;
     }
 }
-module.exports = User;
+module.exports = EditorMember;

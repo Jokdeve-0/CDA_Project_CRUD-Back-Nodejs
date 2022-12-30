@@ -88,7 +88,7 @@ exports.showTables = (req, res, next) => {
   try {
     connection.query(showTable.query, (error, results) => {
       if (error) {
-        if(error.sqlMessage && error.sqlMessage === "Unknown database 'moovleendb'"
+        if(error.sqlMessage && error.sqlMessage === "Unknown database 'addictocode_api'"
           || error.code === 'PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR'
           ){
             return res.status(200).json({message:'The database not exist'})

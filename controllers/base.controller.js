@@ -29,7 +29,8 @@ exports.signup = (req, res, next) => {
       res.status(403);
       res.json({error:validation});
       return res;
-  }else{      
+  }else{ 
+    req.body.role_id =  req.body.role_id ? req.body.role_id : 2;    
     const baseQuery = BaseQuery.addEntity('user', req.body);
     connection.query(`SELECT * FROM ${baseQuery.table} WHERE ${baseQuery.table}.username='${req.body.username}' OR ${baseQuery.table}.mail='${req.body.mail}';`, (error, existingParams) => {
       if (error) {
@@ -182,7 +183,9 @@ exports.selectEntity = (req, res, next, baseQuery) => {
       log.writeHistory('selectEntity', [error], 'error');
       return handleError(error, res);
     } else {
-      if(baseQuery.table === 'user' ||baseQuery.table === 'editor'){
+
+      // should we add a relation
+      if(baseQuery.table === 'user' || baseQuery.table === 'editor'){
         const relationQuery = BaseQuery.relationEntity(baseQuery.table,req.body.id);
         connection.query(relationQuery.query, (error, relationResults) => {
           if (error) {
@@ -190,24 +193,15 @@ exports.selectEntity = (req, res, next, baseQuery) => {
             return handleError(error, res);
           } else {
             // log.writeHistory('relationEntity', [results]);
-            return handleResponse({results,relationResults}, res, `✅ relation entity ${baseQuery.table} !`);
+            return handleResponse({results,relationResults}, res,
+               `✅ relation entity ${baseQuery.table} !`);
           }
         });
+
       }else{
         return handleResponse(results, res, `✅ SELECT ENTITY ${baseQuery.table} !`);
       }
       // log.writeHistory('selectEntity', [results]);
-    }
-  });
-}
-exports.relationEntity = (req, res, next, baseQuery) => {
-  connection.query(baseQuery.query, (error, results) => {
-    if (error) {
-      log.writeHistory('relationEntity', [error], 'error');
-      return handleError(error, res);
-    } else {
-      // log.writeHistory('relationEntity', [results]);
-      return handleResponse(results, res, `✅ relation entity ${baseQuery.table} !`);
     }
   });
 }

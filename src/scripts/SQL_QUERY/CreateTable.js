@@ -1,6 +1,6 @@
 module.exports = {
   createDatabase: {
-    query: `CREATE DATABASE IF NOT EXISTS moovleendb;`,
+    query: `CREATE DATABASE IF NOT EXISTS addictocode_api;`,
     log: "Action 'create database' at : "
   },
   createTable: {

@@ -42,16 +42,20 @@ const routes = (name) => {
       router.post(`/${name}/signup`,baseController.signup);
       router.post(`/${name}/login`,baseController.login);
       router.get(`/${name}/logout`, baseController.logout);
+
     }else if(name === 'database'){
+      // not auth
       router.get(`/${name}/create/tables`, databaseController.createTables);
       router.post(`/${name}/add/entities`, databaseController.addFixtures);
       router.post(`/${name}/delete/entities`, databaseController.removeAllDatas);
       router.patch(`/${name}/show/tables`, databaseController.showTables);
       router.delete(`/${name}/delete/tables`,databaseController.deleteTables);
+
     }
     else{
         const matchingController = controllers[name !== '' ? name : 'book'];
         router.get(`/${name}/all`,matchingController.selectAll);
+        // auth
         router.post(`/${name}/add`,auth, matchingController.addEntity);
         router.post(`/${name}/show`,auth, matchingController.selectEntity);
         router.patch(`/${name}/edit`,auth,matchingController.editEntity);
